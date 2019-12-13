@@ -1,0 +1,49 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  annotations:
+    kubernetes.io/createdby: aws-ebs-dynamic-provisioner
+    pv.kubernetes.io/bound-by-controller: "yes"
+    pv.kubernetes.io/provisioned-by: kubernetes.io/aws-ebs
+  creationTimestamp: 2019-12-13T13:06:41Z
+  finalizers:
+  - kubernetes.io/pv-protection
+  labels:
+    failure-domain.beta.kubernetes.io/region: us-east-1
+    failure-domain.beta.kubernetes.io/zone: us-east-1b
+  name: pvc-67543b52-1da9-11ea-9f62-0aa3971e9b7f
+  resourceVersion: "17758891"
+  selfLink: /api/v1/persistentvolumes/pvc-67543b52-1da9-11ea-9f62-0aa3971e9b7f
+  uid: 679f0ebd-1da9-11ea-af84-12f804da2c8b
+spec:
+  accessModes:
+  - ReadWriteOnce
+  awsElasticBlockStore:
+    fsType: ext4
+    volumeID: aws://us-east-1b/vol-053fdec4ac1fbe55a
+  capacity:
+    storage: 10Gi
+  claimRef:
+    apiVersion: v1
+    kind: PersistentVolumeClaim
+    name: claim-jci-cd
+    namespace: default
+    resourceVersion: "17758877"
+    uid: 67543b52-1da9-11ea-9f62-0aa3971e9b7f
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: failure-domain.beta.kubernetes.io/zone
+          operator: In
+          values:
+          - us-east-1b
+        - key: failure-domain.beta.kubernetes.io/region
+          operator: In
+          values:
+          - us-east-1
+  persistentVolumeReclaimPolicy: Delete
+  storageClassName: gp2
+  volumeMode: Filesystem
+status:
+  phase: Bound

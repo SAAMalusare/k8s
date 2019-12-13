@@ -147,7 +147,46 @@ master:
     - workflow-aggregator:2.6
     - credentials-binding:1.19
     - git:3.10.0
-
+    - blueocean:1.10.1
+    - dashboard-view:2.10
+    - build-name-setter:1.6.9
+    - config-file-provider:3.4.1
+    - embeddable-build-status:1.9
+    - rebuild:1.29
+    - ssh-agent:1.17
+    - throttle-concurrents:2.0.1
+    - nodejs:1.2.7
+    - checkstyle:4.0.0
+    - cobertura:1.13
+    - htmlpublisher:1.18
+    - junit:1.26.1
+    - warnings-ng:2.0.0
+    - xunit:2.3.2
+    - build-pipeline-plugin:1.5.8
+    - conditional-buildstep:1.3.6
+    - jenkins-multijob-plugin:1.32
+    - parameterized-trigger:2.35.2
+    - copyartifact:1.41
+    - git-parameter:0.9.6
+    - github:1.29.3
+    - matrix-project:1.13
+    - role-strategy:2.9.0
+    - active-directory:2.10
+    - emailext-template:1.1
+    - publish-over-ssh:1.20.1
+    - ssh:2.6.1
+    - periodicbackup:1.5
+    - thinBackup:1.9
+    - jobConfigHistory:2.19
+    - simple-theme-plugin:0.5.1
+    - cucumber-testresult-plugin:0.10.1
+    - jacoco:3.0.4
+    - nodelabelparameter:1.7.2
+    - jenkinswalldisplay:0.6.34
+    - golang:1.2
+    - audit-trail:2.4
+    - saferestart:0.3
+    - pipeline-utility-steps:2.2.0
   # Enable to always override the installed plugins with the values of 'master.installPlugins' on upgrade or redeployment.
   # overwritePlugins: true
   # Enable HTML parsing using OWASP Markup Formatter Plugin (antisamy-markup-formatter), useful with ghprb plugin.
@@ -188,7 +227,7 @@ master:
     configScripts:
       welcome-message: |
         jenkins:
-          systemMessage: Welcome to our CI\CD server.  This Jenkins is configured and managed 'as code'.
+          systemMessage: Welcome to Aegon's CI\CD server.  This Jenkins is configured and managed 'as code'.
 
   # Optionally specify additional init-containers
   customInitContainers: []
@@ -273,10 +312,10 @@ master:
     apiVersion: "extensions/v1beta1"
     labels: {}
     annotations: {}
-    # kubernetes.io/ingress.class: nginx
-    # kubernetes.io/tls-acme: "true"
+      kubernetes.io/ingress.class: nginx
+      kubernetes.io/tls-acme: "true"
     # Set this path to jenkinsUriPrefix above or use annotations to rewrite path
-    # path: "/jenkins"
+    path: "/jenkins"
     # configures the hostname e.g. jenkins.example.com
     hostName: aa3d4922eb13011e9bd1f0a6d0a9d818-2078617409.us-east-1.elb.amazonaws.com
     tls:
@@ -416,10 +455,10 @@ persistence:
   accessMode: "ReadWriteOnce"
   size: "8Gi"
   volumes:
-  #  - name: nothing
+    - name: ebs-jci-home
   #    emptyDir: {}
   mounts:
-  #  - mountPath: /var/nothing
+  #  - mountPath: /var/jenkins
   #    name: nothing
   #    readOnly: true
 

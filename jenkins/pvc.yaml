@@ -2,33 +2,33 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: claim-jci-home
-#  annotations:
-#    volume.beta.kubernetes.io/storage-class: standard
+  annotations:
+    provisioner: kubernetes.io/aws-ebs
+    storageclass.beta.kubernetes.io/is-default-class: 'true'
+    volume.beta.kubernetes.io/storage-provisioner: kubernetes.io/aws-ebs
 spec:
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
-       storage: 5Gi
-  selector:
-    matchLabels:
-      loc: jci_home
+       storage: 9Gi
 ---
 
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: claim-jci-cd
-#  annotations:
-#    volume.beta.kubernetes.io/storage-class: standard
-
+  annotations:
+    provisioner: kubernetes.io/aws-ebs
+    storageclass.beta.kubernetes.io/is-default-class: 'true'
+    volume.beta.kubernetes.io/storage-provisioner: kubernetes.io/aws-ebs
 spec:
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
        storage: 10Gi
-  selector:
-    matchLabels:
-      loc: jci-cd
+#  selector:
+#    matchLabels:
+#      loc: jci-cd
 
