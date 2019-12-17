@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+   name: ebs-jci-home
+   labels:
+     type: dev
+     loc: jci_home
+spec:
+  accessModes:
+     - ReadWriteOnce
+  capacity:
+    storage: 10Gi
+  claimRef:
+    name: ebs-jci-home
+  awsElasticBlockStore:
+    volumeID: "aws://us-east-1d/vol-"
+    fsType: "ext4"
+---
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+   name: ebs-pv-deployments
+   labels:
+     type: dev
+     loc: jci-cd
+spec:
+  accessModes:
+     - ReadWriteOnce
+  capacity:
+    storage: 10Gi
+  claimRef:
+    name: ebs-pv-deployments
+  awsElasticBlockStore:
+    volumeID: "aws://us-east-1d/vol-"
+    fsType: "ext4"
+
