@@ -1,0 +1,45 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    kubernetes.io/psp: eks.privileged
+  labels:
+    jenkins: py_slave
+    jenkins/jenkins-slave: "true"
+  name: maven-slave-knq2l
+  namespace: default
+spec:
+  containers:
+  - args:
+    - 7f91a3be63a077c5f2c44538d9e996c3fdd0556a2d8f307c7c8e239c5a7101d6
+    - maven-slave-knq2l
+    env:
+    - name: JENKINS_PROTOCOLS
+      value: JNLP4-connect
+    - name: JENKINS_SECRET
+      value: 7f91a3be63a077c5f2c44538d9e996c3fdd0556a2d8f307c7c8e239c5a7101d6
+    - name: JENKINS_AGENT_NAME
+      value: maven-slave-knq2l
+    - name: JENKINS_DIRECT_CONNECTION
+      value: a74e6feeb20c411ea9f620aa3971e9b7-101021bc18110894.elb.us-east-1.amazonaws.com:50000
+    - name: JENKINS_INSTANCE_IDENTITY
+      value: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAwcpQNi/seo/FjLzEuTNUpEWRekTZl+w7SprvYOh+ooiPIQ7uSmx++9b2ze6RN2E/bfWJSs+oTa8zR7YGjtoN4GI2SJ3JzT+x4dMN1R9ZJA68wgj18JFHWQlnAsgsEY2pAk4YxlV0ch31rzaEZhWDxqR7JqvZv6/8DEiYq0I45iwLms5tuhDKWXjtTjEulTelTEimS8nLelmmxR/rcuSNsaju7LY0Fhv2e104dlZOrWKxrqRDxltZR7LJ9V1AwJGqqRMYEfQ9dAlYMoNQKipVYldWA0wSgAaQ4oTbqL+VyhbTwnvi89fJiLDIjY6njAcHuzNuA5HQqsd5x3FX5kVILQIDAQAB
+    - name: JENKINS_NAME
+      value: maven-slave-knq2l
+    - name: JENKINS_AGENT_WORKDIR
+      value: /home/jenkins/agent
+    image: jenkins/jnlp-slave:3.35-5-alpine
+    imagePullPolicy: IfNotPresent
+    name: jnlp
+    securityContext:
+      privileged: false
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    tty: true
+    volumeMounts:
+    - mountPath: /home/jenkins/agent
+      name: workspace-volume
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: default-token-zb7w8
+      readOnly: true
+    workingDir: /home/jenkins/agent

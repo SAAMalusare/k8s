@@ -13,7 +13,7 @@ master:
   #      command:
   #      - "uname"
   #      - "-a"
-  numExecutors: 5
+  numExecutors: 1
   # configAutoReload requires UseSecurity is set to true:
   useSecurity: true
   # Allows to configure different SecurityRealm using Jenkins XML
@@ -269,7 +269,7 @@ master:
   overwriteJobs: false
 
   ingress:
-    enabled: false
+    enabled: true
     # For Kubernetes v1.14+, use 'networking.k8s.io/v1beta1'
     apiVersion: "networking.k8s.io/v1beta1"
     labels: {}
@@ -281,7 +281,7 @@ master:
     # Set this path to jenkinsUriPrefix above or use annotations to rewrite path
     path: "/jenkins"
     # configures the hostname e.g. jenkins.example.com
-    hostName: {}
+    hostName: a74e6feeb20c411ea9f620aa3971e9b7-101021bc18110894.elb.us-east-1.amazonaws.com
     tls:
     # - secretName: jenkins.cluster.local
     #   hosts:
@@ -337,7 +337,7 @@ master:
 agent:
   enabled: true
   image: "jenkins/jnlp-slave"
-  tag: "3.27-1"
+  tag: "latest"
   customJenkinsLabels: []
   # name of the secret to be used for image pulling
   imagePullSecretName:
@@ -350,10 +350,7 @@ agent:
     limits:
       cpu: "200m"
       memory: "256Mi"
-  # You may want to change this to true while testing a new image
   alwaysPullImage: false
-  # Controls how slave pods are retained after the Jenkins build completes
-  # Possible values: Always, Never, OnFailure
   podRetention: "Never"
   # You can define the volumes that you want to mount for this container
   # Allowed types are: ConfigMap, EmptyDir, HostPath, Nfs, Pod, Secret
@@ -361,30 +358,19 @@ agent:
   # https://github.com/jenkinsci/kubernetes-plugin/tree/master/src/main/java/org/csanchez/jenkins/plugins/kubernetes/volumes
   # Pod-wide ennvironment, these vars are visible to any container in the slave pod
   envVars:
-  # - name: PATH
-  #   value: /usr/local/bin
   volumes:
-  # - type: Secret
-  #   secretName: mysecret
-  #   mountPath: /var/myapp/mysecret
-  # - type: EmptyDir
-  #   mountPath: "/var/lib/containers"
-  #   memory: false
   nodeSelector: {}
-  # Key Value selectors. Ex:
-  # jenkins-agent: v1
-
   # Executed command when side container gets started
   command:
   args:
   # Side container name
   sideContainerName: "jnlp"
   # Doesn't allocate pseudo TTY by default
-  TTYEnabled: false
+  TTYEnabled: true
   # Max number of spawned agent
   containerCap: 10
   # Pod name
-  podName: "default"
+  podName: "jnlp-slave"
   # Allows the Pod to remain active for reuse until the configured number of
   # minutes has passed since the last step was executed on it.
   idleMinutes: 0
@@ -418,11 +404,7 @@ persistence:
   size: "9Gi"
   volumes:
     - name: ebs-jci-home
-  #    emptyDir: {}
   mounts:
-  #  - mountPath: /var/jenkins
-  #    name: nothing
-  #    readOnly: true
 
 networkPolicy:
   # Enable creation of NetworkPolicy resources.

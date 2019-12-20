@@ -537,7 +537,7 @@ imagePullSecrets: []
 ##
 tcp: {}
   # 8080: "jenkins:8080"
-
+  #  50000: "jenkins-agent:50000"
 # UDP service key:value pairs
 # Ref: https://github.com/kubernetes/contrib/tree/master/ingress/controllers/nginx/examples/udp
 ##
