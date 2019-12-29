@@ -1,0 +1,44 @@
+pipeline {
+  agent {
+    kubernetes {
+      containerTemplate {
+			name 'pyhton'
+            image 'python:3.5.1'
+            ttyEnabled true
+            command 'cat'
+      }
+    }
+  }
+ 
+  stages {
+    stage('Check py Version') {
+      steps {
+		container('pyhton') {
+          sh 'echo $WORKSPACE'
+          sh 'python --version'
+        }
+      }
+    }
+    stage('Build and Upload Workspace to S3') {
+      steps {
+		container('pyhton') {
+		    withAWS(credentials:'XXXXXX-XXXX-XXXX-XXXX-XXXXXX', region:'ap-south-1') {
+                sh 'echo "hello KB">hello.txt'
+
+                sh 'tar -zcvf /home/jenkins/$BUILD_NUMBER.tar $WORKSPACE/*'
+                sh 'ls -ltrh /home/jenkins'
+
+                sh 'echo /home/jenkins/${BUILD_NUMBER}'
+                sh 'if [ ! -f /home/jenkins/${BUILD_NUMBER}.tar ]; then echo "File not found!"; else echo "file found"; fi'
+
+                sh 'cp /home/jenkins/${BUILD_NUMBER}.tar .'
+                sh 'ls -ltrh'
+                
+                s3Upload(file: """${env.BUILD_NUMBER}.tar""", bucket:'dt-claim-declarative-test', path:'jenkins-workspace/')
+            }
+          
+            }
+        }   
+    }
+  }
+}
